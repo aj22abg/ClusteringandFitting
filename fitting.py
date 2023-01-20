@@ -1,4 +1,9 @@
 """
+Created on Tue Jan 17 21:27:24 2023
+
+@author: LENOVO
+"""
+"""
 
 Program to perform clustering and fitting in given datasets
 
@@ -113,3 +118,92 @@ plt.show()
 plt.savefig("cluster.png")
 
 
+# Dataframe containing the data of the country France
+dat1 =dat[(dat['Country'] == 'FRA')]
+# using curve_fit function
+val = dat1.values
+x, y = val[:, 1], val[:, 2]
+param, cov = opt.curve_fit(funct, x, y)
+
+dat1["pop_log"] = funct(x, *param)
+print("Parameters : ", param)
+print("Covariance-matrix : ", cov)
+# Plotting the fit
+plt.plot(x, dat1["pop_log"], label="Fit")
+# Plotting the data
+plt.plot(x, y, label="CO2 emission")
+plt.xlabel('Year')
+plt.ylabel('CO2 emission')
+plt.title("CO2 emission rate in France")
+plt.legend(loc='best', fancybox=True, shadow=True)
+plt.show()
+plt.savefig("fit1.png")
+
+# Extract the sigmas from the diagonal of the covariance matrix
+sigma = np.sqrt(np.diag(cov))
+print(sigma)
+low, up = error_ranges(x, funct, param, sigma)
+
+# Predicting the CO2 emission in next 10 years
+low, up = error_ranges(2030, funct, param, sigma)
+print("Forcasted CO2 emission in France 2030 ranges between", low, "and", up)
+
+# Dataframe containing the data of the country India
+dat2 = dat[(dat['Country'] == 'IND')]
+# using curve_fit function
+val = dat2.values
+x, y = val[:, 1], val[:, 2]
+param, cov = opt.curve_fit(funct, x, y)
+
+dat2["pop_log"] = funct(x, *param)
+print("Parameters : ", param)
+print("Covariance-matrix : ", cov)# Plotting the fit
+# Plotting the fit
+plt.plot(x, dat2["pop_log"], label="Fit")
+# Plotting the data
+plt.plot(x, y, label="CO2 emission")
+plt.xlabel('Year')
+plt.ylabel('CO2 emission')
+plt.title("CO2 emission rate in India")
+plt.legend(loc='best', fancybox=True, shadow=True)
+plt.show()
+plt.savefig("fit2.png")
+
+# Extract the sigmas from the diagonal of the covariance matrix
+sigma = np.sqrt(np.diag(cov))
+print(sigma)
+low, up = error_ranges(x, funct, param, sigma)
+
+# Predicting the CO2 emission in next 10 years
+low, up = error_ranges(2030, funct, param, sigma)
+print("Forcasted CO2 emission in India in 2030 ranges between", low, "and", up)
+
+# Dataframe containing the data of the country China
+dat3 = dat[(dat['Country'] == 'CHN')]
+# using curve_fit function
+val = dat3.values
+x, y = val[:, 1], val[:, 2]
+param, cov = opt.curve_fit(funct, x, y)
+
+dat3["pop_log"] = funct(x, *param)
+print("Parameters : ", param)
+print("Covariance-matrix : ", cov)
+# Plotting the fit
+plt.plot(x, dat3["pop_log"], label="Fit")
+# Plotting the data
+plt.plot(x, y, label="CO2 emission")
+plt.xlabel('Year')
+plt.ylabel('CO2 emission')
+plt.title("CO2 emission rate in China")
+plt.legend(loc='best', fancybox=True, shadow=True)
+plt.show()
+plt.savefig("fit3.png")
+
+# Extract the sigmas from the diagonal of the covariance matrix
+sigma = np.sqrt(np.diag(cov))
+print(sigma)
+low, up = error_ranges(x, funct, param, sigma)
+
+# Predicting the CO2 emission in next 10 years
+low, up = error_ranges(2030, funct, param, sigma)
+print("Forcasted CO2 emission in China in 2030 ranges between", low, "and", up)
